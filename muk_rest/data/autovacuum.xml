@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--     
+	Copyright (C) 2017 MuK IT GmbH
+	
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+-->
+
+<odoo noupdate="1">
+
+	<record id="data_autovacuum_rest_requests" model="muk_autovacuum.rules">
+        <field name="name">Delete requests after 1 hour</field>
+        <field name="model" ref="muk_rest.model_muk_rest_request"/>
+        <field name="time_field" ref="muk_rest.field_muk_rest_request__create_date"/>
+        <field name="active" eval="True" />
+        <field name="state">time</field>
+        <field name="time_type">hours</field>
+        <field name="time">1</field>
+        <field name="protect_starred" eval="False" />
+    </record>
+    
+    <record id="data_autovacuum_rest_bearer_tokens" model="muk_autovacuum.rules">
+        <field name="name">Delete tokens that have expired</field>
+        <field name="model" ref="muk_rest.model_muk_rest_bearer_token"/>
+        <field name="time_field" ref="muk_rest.field_muk_rest_bearer_token__expires_in"/>
+        <field name="active" eval="True" />
+        <field name="state">time</field>
+        <field name="time_type">hours</field>
+        <field name="time">1</field>
+        <field name="protect_starred" eval="False" />
+    </record>
+</odoo>

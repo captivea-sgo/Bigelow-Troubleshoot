@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="payment_stripe_ext_acquirer_form" model="ir.ui.view">
+        <field name="name">payment.acquirer.form</field>
+        <field name="model">payment.acquirer</field>
+        <field name="inherit_id" ref="payment.acquirer_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='save_token']" position="after">
+                <field name="auto_payment" widget="radio" attrs="{'invisible': [('provider', '!=', 'stripe')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                <attribute name="attrs">{'required': [('auto_payment', '=', 'generate_and_pay_invoice')]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

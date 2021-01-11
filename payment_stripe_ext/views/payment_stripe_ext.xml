@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="payment_stripe_ext_assets_backend" name="payment_stripe_ext assets" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+        <link rel="stylesheet" href="/payment_stripe_ext/static/src/css/style.css"/>
+        <script type="text/javascript" src="/payment_stripe_ext/static/src/js/checkout.js"></script>
+    </xpath>
+</template>
+
+    <template id="backend_stripe_acquirer_button">
+        <input type="hidden" name="data_set" t-att-data-action-url="tx_url" data-remove-me=""/>
+        <input type="hidden" name='stripe_image' t-att-value="acquirer.stripe_image_url"/>
+        <input type="hidden" name='merchant' t-att-value='acquirer.company_id.name'/>
+        <input type="hidden" name='amount' t-att-value="amount"/>
+        <input type="hidden" name='return_url' t-att-value='returndata'/>
+        <!--Order Information -->
+        <input type="hidden" name='invoice_num' t-att-value='reference'/>
+        <input type="hidden" name='currency' t-att-value='currency'/>
+        <input type="hidden" name='currency_id' t-att-value='currency_id'/>
+        <input type="hidden" name='partner' t-att-value='partner_id'/>
+        <!-- Billing Information-->
+        <input type="hidden" name='name' t-att-value='name'/>
+        <input type="hidden" name='address_line1' t-att-value='address_line1'/>
+        <input type="hidden" name='address_city' t-att-value='address_city'/>
+        <input type="hidden" name='address_zip' t-att-value='address_zip'/>
+        <input type="hidden" name='address_country' t-att-value='address_country'/>
+        <input type="hidden" name='phone' t-att-value='phone'/>
+        <input type="hidden" name='email' t-att-value='email'/>
+        <input id="acquirer_stripe" type="hidden" name="acquirer" t-att-value="acquirer.id"/>
+        <input type="hidden" name="stripe_key" t-att-value="acquirer.stripe_publishable_key"/>
+        <!-- Submit-->
+        <button id="pay_stripe" type="button" class='btn btn-link'>
+            <img t-if="not submit_txt" src="/payment_stripe/static/src/img/stripe_icon.png"/>
+            <span t-if="submit_txt"><t t-esc="submit_txt"/> <span class="fa fa-long-arrow-right"/></span>
+        </button>
+    </template>
+
+    <record id="payment.payment_acquirer_stripe" model="payment.acquirer">
+        <field name="backend_view_template_id" ref="backend_stripe_acquirer_button"/>
+    </record>
+
+</odoo>

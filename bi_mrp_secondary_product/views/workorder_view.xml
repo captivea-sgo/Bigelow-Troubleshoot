@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	  <record id="bi_mrp_workorder_tablet_form_view_id" model="ir.ui.view">
+            <field name="name">bi.mrp.workorder.tablet.form.view</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp_workorder.mrp_workorder_view_form_tablet" />
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//div[@class='o_workorder_data']" position="inside">
+
+                    <div class="o_workorder_bar_content o_workorder_form" attrs="{'invisible' : ['|','|','|',('is_done_workorder','!=',True),('is_last_step', '!=', True),('custom_final_step','=',True),('custom_compponent_id','=',False)]}">
+                        <div class="o_workorder_field">
+                            <div class="o_form_label"><field name="name_quality_custom"/></div>
+                            <field name="custom_compponent_id" readonly="1"/>
+                        </div>
+                        <div class="o_workorder_field text-center" attrs="{'invisible' : [('tracking','=','none')]}">
+                            
+                            <div class="o_form_label" >Lot Number</div>
+                            <field name="custom_lot_id" context="{'default_product_id': custom_compponent_id}" domain="[('product_id','=',custom_compponent_id)]" />
+                            <field name="tracking" invisible="1" />
+
+                            <field name="custom_final_step" invisible="1"/>
+                        </div>
+                        <div class="o_workorder_field text-right">
+                            <label for="custom_quantity" string="Quantity"/>
+                            <div>
+                                <field name="custom_quantity"  string="Quantity" class="oe_inline"/> /
+                                <field name="actual_custom_quantity" readonly="1" class="oe_inline"/>
+                                
+                                <field name="custom_uom_id" readonly="1" />
+                                
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </xpath>
+
+              <xpath expr="//button[@name='do_finish']" position="after">
+
+                    <button name="action_next_custome" type="object" class="btn-primary" attrs="{'invisible' : ['|','|','|',('is_done_workorder','!=',True),('is_last_step', '!=', True),('custom_final_step','=',True),('custom_compponent_id','=',False)]}" barcode_trigger="next" string="Validate"/>
+                </xpath>
+
+
+            <xpath expr="//button[@name='action_open_manufacturing_order']" position="replace">
+
+                <field name="custom_quality_check" invisible="1"/>
+                <button name="action_open_manufacturing_order" type="object" string="Mark as Done and Close MO" icon="fa-check" attrs="{'invisible': ['|', '|', '|', '|', '|','|', ('is_user_working', '=', False), ('is_last_step', '!=', True), ('skipped_check_ids', '!=', []), ('is_last_lot', '=', False), ('next_work_order_id', '!=', False),('custom_quality_check','=',True)]}" class="btn-primary" barcode_trigger="cloMO"/>
+
+                </xpath>
+
+                <xpath expr="//div[@class='o_workorder_data']" position="after">
+                    <div  class='o_workorder_data'>
+                    <field name="secondary_product_id_ids" widget="one2many_list"  attrs="{'invisible': ['|', '|', '|', '|', '|','|', ('is_user_working', '=', False), ('is_last_step', '!=', True), ('skipped_check_ids', '!=', []), ('is_last_lot', '=', False), ('next_work_order_id', '!=', False),('custom_quality_check','=',True)]}">
+                                <tree editable="bottom" create="false" delete='false'>
+                                    <field name="product_id" style="color:green;"/>
+                                    <field name="product_qty" style="color:green;"/>
+                                    <field name="title" style="color:green;"/>
+                                    <field name="result" style="color:green;"/>
+                                    <field name="lot_id" style="color:green;"/>
+                                    <field name="secondary_workorder_id" invisible="1"/>
+                                </tree>
+                            </field>
+                    </div>
+                </xpath>
+
+
+            </field>
+        </record>
+
+
+
+
+</odoo>
